@@ -18,7 +18,7 @@
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('dynamic') }}">Page de Filtre</a>
+            <a class="nav-link" href="#">Features</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Pricing</a>
@@ -41,6 +41,7 @@
     <tr>
       <th scope="col">Gare</th>
       <th scope="col">Lignes</th>
+      <th scope="col">Correspondance</th>
       <th scope="col">Terminus</th>
     </tr>
   </thead>
@@ -48,27 +49,26 @@
    {% for gare in infos %}
 
    <tr class="table-success">
-      <th scope="row">{{ gare["gare"].gareNom}}</th>
+      <th scope="row">{{ gare["gare"].gareId}}</th>
+      <td> {{ gare["gare"].ligne }} </td>
       <td>
       {% for ligne in gare["lignes"] %}
-      {{ ligne.ligne }}
+      {{ ligne }}
       {% endfor %}</td>
 
-      {% set verif = false %}
-      {% set remplacement = "Non" %}
+     
       <td>
-      {% for ligne in gare["lignes"] %}
-      {% if ligne.terminus == true %}
-      {{ ligne.ligne }}
-      {% set verif = true %}
+      
+      {% if gare["gare"].terminus == true %}
+      Oui
+      {% else %}
+      Non
       {% endif %}
-      {% endfor %}
-      {% if verif == false %}
-       {{remplacement}} 
-      {% endif %}
+      
+     
       </td>
    
-      <td>Column content</td>
+     
     </tr>
    {% endfor %}
   
