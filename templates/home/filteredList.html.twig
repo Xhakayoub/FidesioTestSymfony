@@ -1,0 +1,40 @@
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Gare</th>
+      <th scope="col">Lignes</th>
+      <th scope="col">Correspondance</th>
+      <th scope="col">Terminus</th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for gare in infos %}
+
+   <tr class="table-success">
+      <th scope="row">{{ gare["gare"].gareId}}</th>
+      <td> {{ gare["gare"].ligne }} </td>
+      <td>
+      {% for ligne in gare["lignes"] %}
+      {{ ligne }}
+      {% endfor %}</td>
+
+     
+      <td>
+      
+      {% if gare["gare"].terminus == true %}
+      Oui
+      {% else %}
+      Non
+      {% endif %}
+      
+     
+      </td>
+   
+     
+    </tr>
+   {% endfor %}
+  
+   
+  </tbody>
+</table> 
