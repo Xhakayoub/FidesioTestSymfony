@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
+
     /**
      * @Route("/", name="home")
      */
@@ -69,7 +70,8 @@ class HomeController extends AbstractController
         ->findAll();
 
         $allLines = $this->getDoctrine()->getRepository(Ligne::class)
-        ->findAll(array(),array('ligne' => 'ASC'));
+        ->findAll();
+        
         
         $Api = array();
 
@@ -123,27 +125,25 @@ class HomeController extends AbstractController
      */
     public function filter(request $request)
     {   
-        $lineRequested = $request->request->get('line');
-    //     var_dump($requestedLine);
-    //     $response = new Response(json_encode(array(
-    //     'line' => $requestedLine,
-    // )));
-
-    //  return $response;
+         $lineRequested = $request->request->get('line');
+    
          $allStations = $this->getDoctrine()->getRepository(Gare::class)
          ->findAll();
 
          $allLines = $this->getDoctrine()->getRepository(Ligne::class)
-         ->findAll(array(),array('ligne' => 'ASC'));
-
+         ->findAll();
+         
           $allRelations = $this->getDoctrine()->getRepository(Relation::class)
          ->findAll();
         
          $Api = array();
-
+        if($lineRequested == "All"){
+          $relation = $this->getDoctrine()->getRepository(Relation::class)
+        ->findAll();
+        }else{
         $relation = $this->getDoctrine()->getRepository(Relation::class)
          ->findByLigne($lineRequested);
-         dump($relation);
+      }
        foreach($relation as $rel)
         {
          
