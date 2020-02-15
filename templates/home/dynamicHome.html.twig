@@ -8,7 +8,7 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Navbar</a>
+    <a class="navbar-brand" href="/">Ratp Api</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,17 +16,12 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-            <a class="nav-link" href="{{ path('dynamic') }}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/">Features</a>
+            <a class="nav-link" href="{{ path('dynamic') }}">Page de Filtre </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-        </li>
+     
         </ul>
        <div class="form-group">
       <label for="exampleSelect1">Example select</label>
@@ -42,7 +37,7 @@
 </div>
 
 <div class="container inner">
-<table class="table table-hover">
+<table id="dtBasicExample" class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Gare</th>
@@ -52,24 +47,27 @@
     </tr>
   </thead>
   <tbody>
-   {% for gare in infos %}
+  {# {{dump(infos)}} #}
+{% for gare in infos %}
 
    <tr class="table-success">
       <th scope="row">{{ gare["gare"].gareId}}</th>
       <td> {{ gare["gare"].ligne }} </td>
       <td>
+      {# {{dump(gare["lignes"])}} #}
       {% for ligne in gare["lignes"] %}
-      {{ ligne }}
+       {# {{ dump(ligne) }}  #}
+       {{ ligne.ligne }}
       {% endfor %}</td>
 
      
       <td>
       
-      {% if gare["gare"].terminus == true %}
-      Oui
-      {% else %}
-      Non
-      {% endif %}
+      {% for ligne in gare["lignes"] %}
+       {% if ligne.terminus == true  %}
+       {{ ligne.ligne }}
+       {% endif %}
+      {% endfor %}</td>
       
      
       </td>
@@ -82,9 +80,19 @@
   </tbody>
 </table> 
 </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
+
+
+$(document).ready(function () {
+  $('#dtBasicExample').DataTable({
+    "pagingType": "simple" 
+  });
+});
  {# $( ".target" ).select(function() { alert("tet");
     var url = $(this).attr('base-url') + $(this).val();
   $.ajax({

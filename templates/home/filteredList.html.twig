@@ -15,18 +15,20 @@
       <th scope="row">{{ gare["gare"].gareId}}</th>
       <td> {{ gare["gare"].ligne }} </td>
       <td>
+      {# {{dump(gare["lignes"])}} #}
       {% for ligne in gare["lignes"] %}
-      {{ ligne }}
+       {# {{ dump(ligne) }}  #}
+       {{ ligne.ligne }}
       {% endfor %}</td>
 
      
       <td>
       
-      {% if gare["gare"].terminus == true %}
-      Oui
-      {% else %}
-      Non
-      {% endif %}
+      {% for ligne in gare["lignes"] %}
+       {% if ligne.terminus == true  %}
+       {{ ligne.ligne }}
+       {% endif %}
+      {% endfor %}</td>
       
      
       </td>

@@ -83,7 +83,11 @@ class HomeController extends AbstractController
                 if($rel->getGareId() == $relToCollect->getGareId() && 
                 $rel->getId() != $relToCollect->getId()){
                    
-                  array_push($lignes, $relToCollect->getLigne());
+                  $correspondance = array(
+                     "ligne"=> $relToCollect->getLigne(),
+                     "terminus"=> $relToCollect->getTerminus());
+                   
+                   array_push($lignes, $correspondance);
                 }
             }
 
@@ -150,8 +154,11 @@ class HomeController extends AbstractController
              {  
                  if($rel->getGareId() == $relToCollect->getGareId() && 
                  $rel->getligne() != $relToCollect->getLigne()){
+                   $correspondance = array(
+                     "ligne"=> $relToCollect->getLigne(),
+                     "terminus"=> $relToCollect->getTerminus());
                    
-                   array_push($lignes, $relToCollect->getLigne());
+                   array_push($lignes, $correspondance);
                  }
              }
             
