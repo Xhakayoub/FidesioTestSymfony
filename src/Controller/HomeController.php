@@ -84,6 +84,7 @@ class HomeController extends AbstractController
             {  
                 if($rel->getGareId() == $relToCollect->getGareId() && 
                 $rel->getId() != $relToCollect->getId()){
+                  
                    
                   $correspondance = array(
                      "ligne"=> $relToCollect->getLigne(),
@@ -152,11 +153,19 @@ class HomeController extends AbstractController
         
             foreach($allRelations as $relToCollect)
              {  
-                 if($rel->getGareId() == $relToCollect->getGareId() && 
-                 $rel->getligne() != $relToCollect->getLigne()){
+                 if($rel->getGareId() == $relToCollect->getGareId()){
+
+                  if($rel->getligne() != $relToCollect->getLigne()) {
                    $correspondance = array(
                      "ligne"=> $relToCollect->getLigne(),
-                     "terminus"=> $relToCollect->getTerminus());
+                     "terminus"=> $rel->getTerminus());
+                    }
+                    else{
+                      $correspondance = array(
+                     "ligne"=> "",
+                     "terminus"=> $rel->getTerminus());
+                    
+                    }
                    
                    array_push($lignes, $correspondance);
                  }

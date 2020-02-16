@@ -13,27 +13,29 @@
 
    <tr class="table-lignt">
       <th scope="row">{{ gare["gare"].gareId}}</th>
-      <td> {{ gare["gare"].ligne }} </td>
+      <td>  
+        <img src="{{ asset('images/'~gare["gare"].ligne~'.PNG') }}" height="30" width="30" />
+      </td>
+
       <td>
-      {# {{dump(gare["lignes"])}} #}
       {% for ligne in gare["lignes"] %}
-       {# {{ dump(ligne) }}  #}
-       {{ ligne.ligne }}
-      {% endfor %}</td>
+      {% if ligne.ligne != "" %}
+      <img src="{{ asset('images/'~ligne.ligne~'.PNG') }}" height="30" width="30" /> 
+      {% endif %}
+      {% endfor %}
+      </td>
 
      
       <td>
-      
+      {% set check = false %}
       {% for ligne in gare["lignes"] %}
-       {% if ligne.terminus == true  %}
-       {{ ligne.ligne }}
+      {% if ligne.terminus == true and check == false %}
+      {% set check = true %}  
+      <img src="{{ asset('images/'~gare["gare"].ligne~'.PNG') }}" height="30" width="30" /> 
        {% endif %}
-      {% endfor %}</td>
-      
-     
+      {% endfor %}
       </td>
-   
-     
+
     </tr>
    {% endfor %}
   
