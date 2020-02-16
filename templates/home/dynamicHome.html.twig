@@ -8,18 +8,18 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Ratp Api</a>
+    <a class="navbar-brand" href="{{ path('home') }}">Ratp Api</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('dynamic') }}">Page de Filtre </a>
+            <a class="nav-link " href="{{ path('dynamic') }}"> Basic List </a>
         </li>
      
         </ul>
@@ -52,18 +52,26 @@
 {% for gare in infos %}
 
    <tr class="table-default">
+      <!--    colonne pour afficher le nom de la gare     -->
       <th scope="row">{{ gare["gare"].gareId}}</th>
+      <!--_______________________________________________ -->
+
+
+      <!--    colonne pour afficher la ligne en question     --> 
       <td>     
         <img src="{{ asset('images/'~gare["gare"].ligne~'.PNG') }}" height="30" width="30" />
       </td>
-      <td>
-      {# {{dump(gare["lignes"])}} #}
-      {% for ligne in gare["lignes"] %}
-       {# {{ dump(ligne) }}  #}
+      <!--_______________________________________________ -->
+
+      
+
+      <!--    colonne pour afficher les lignes de correspondance    -->   
+      <td> 
+        {% for ligne in gare["lignes"] %}
          <img src="{{ asset('images/'~ligne.ligne~'.PNG') }}" height="30" width="30" />
       {% endfor %}</td>
 
-     
+      <!--    colonne pour afficher les lignes qui prennent cette gare comme terminus    -->
       <td>
       {% set check = false %}
       {% for ligne in gare["lignes"] %}
@@ -71,10 +79,11 @@
       {% set check = true %}
          <img src="{{ asset('images/'~ligne.ligne~'.PNG') }}" height="30" width="30" />
        {% endif %}
-      {% endfor %}</td>
-      
-     
+      {% endfor %}
       </td>
+       <!--_______________________________________________ -->
+     
+      
    
      
     </tr>
@@ -87,82 +96,68 @@
 
  
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
 <script>
 
 $(document).ready(function() {
-	$('#example').DataTable( {
-		
-	} );
-} );
- {# $( ".target" ).select(function() { alert("tet");
-    var url = $(this).attr('base-url') + $(this).val();
-  $.ajax({
-        type: 'POST',
-        data:  $('#AttorneyEmpresa').val(),
-        url: url,
-        success: function () {
-            console.log('success');
-        }
-    });
-   
-});  #}
+   $('body').css('background-color', '#e3e3e3');
+	 $('#example').DataTable( {
+	  });
+});
 
 $(".target").change(function() {
   //event.preventDefault();
   var line = $('.target').val();
- 
- switch(line){
-  case '1' :  document.getElementById("example").style.backgroundColor = "#fff261";
-              break;
-  case '2' :  document.getElementById("example").style.backgroundColor = "#668cff";
-              break;
-  case '3' :  document.getElementById("example").style.backgroundColor = "#acc936";
-              break;
-  case '4' :  document.getElementById("example").style.backgroundColor = "#d464e3";
-              break;
-  case '5' :  document.getElementById("example").style.backgroundColor = "#de955d";
-              break;
-  case '6' :  document.getElementById("example").style.backgroundColor = "#78cf89";
-              break;
-  case '7' :  document.getElementById("example").style.backgroundColor = "#f0aad3";
-              break;
-  case '8' :  document.getElementById("example").style.backgroundColor = "#dc97f0";
-              break;
-  case '9' :  document.getElementById("example").style.backgroundColor = "#b3c94f";
-              break;
-  case '10' :  document.getElementById("example").style.backgroundColor = "#edd05a";
-              break;
-  case '11' :  document.getElementById("example").style.backgroundColor = "#b5831f";
-              break;
-  case '12' :  document.getElementById("example").style.backgroundColor = "#32ad5d";
-              break;
-  case '13' :  document.getElementById("example").style.backgroundColor = "#3ec9c9";
-              break;
-  case '14' :  document.getElementById("example").style.backgroundColor = "#a54de8";
-              break;
-  case 'M3bis' :  document.getElementById("example").style.backgroundColor = "#21b2c2";
-              break;
-  case '7b' :  document.getElementById("example").style.backgroundColor = "#63dba5";
-              break;
-  case 'All' :  document.getElementById("example").style.backgroundColor = "#c9c9c9";
-              break;
 
 
-  }
- // alert(line);
-//var url = $(this).attr('base-url') ;
   $.ajax({
         type: 'POST',
         url: "{{ path('filterList')}}",
         data: { "line": line },
         success: function (data) {   
           //alert("success"); 
-          $( "#example" ).empty();
-         $("#example").append( data );
+          $("#example" ).empty();
+          $("#example").append( data );
+         
+
+         switch(line){
+          case '1' :  document.getElementById("example").style.backgroundColor = "#fff261";
+                      break;
+          case '2' :  document.getElementById("example").style.backgroundColor = "#668cff";
+                      break;
+          case '3' :  document.getElementById("example").style.backgroundColor = "#acc936";
+                      break;
+          case '4' :  document.getElementById("example").style.backgroundColor = "#d464e3";
+                      break;
+          case '5' :  document.getElementById("example").style.backgroundColor = "#de955d";
+                      break;
+          case '6' :  document.getElementById("example").style.backgroundColor = "#78cf89";
+                      break;
+          case '7' :  document.getElementById("example").style.backgroundColor = "#f0aad3";
+                      break;
+          case '8' :  document.getElementById("example").style.backgroundColor = "#dc97f0";
+                      break;
+          case '9' :  document.getElementById("example").style.backgroundColor = "#b3c94f";
+                      break;
+          case '10' :  document.getElementById("example").style.backgroundColor = "#edd05a";
+                      break;
+          case '11' :  document.getElementById("example").style.backgroundColor = "#b5831f";
+                      break;
+          case '12' :  document.getElementById("example").style.backgroundColor = "#32ad5d";
+                      break;
+          case '13' :  document.getElementById("example").style.backgroundColor = "#3ec9c9";
+                      break;
+          case '14' :  document.getElementById("example").style.backgroundColor = "#a54de8";
+                      break;
+          case 'M3bis' :  document.getElementById("example").style.backgroundColor = "#21b2c2";
+                      break;
+          case '7b' :  document.getElementById("example").style.backgroundColor = "#63dba5";
+                      break;
+          case 'All' :  document.getElementById("example").style.backgroundColor = "#c9c9c9";
+                      break;
+          }
         }
     });
 }); 

@@ -5,19 +5,21 @@
 {% block body %}
 <div class="container">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">FIDESIO Test</a>
+    <a class="navbar-brand" href="{{ path('home') }}">RATP Api</a>
     
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+    data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" 
+    aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item ">
+            <a class="nav-link"  href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('dynamic') }}">Page de Filtre</a>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ path('dynamic') }}">Basic List </a>
         </li>
         
         </ul>
@@ -27,7 +29,7 @@
 </div>
 
 <div class="container">
-<table class="table table-hover">
+<table id="example" class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Gare</th>
@@ -39,12 +41,21 @@
    {% for gare in infos %}
 
    <tr class="table-lignt">
-      <th scope="row">{{ gare["gare"].gareNom}}</th>
-      <td>
-      {% for ligne in gare["lignes"] %}
-       <img src="{{ asset('images/'~ligne.ligne~'.PNG') }}" height="30" width="30" /> 
-      {% endfor %}</td>
 
+      <!--    colonne pour afficher le nom de la gare     -->
+      <th scope="row">{{ gare["gare"].gareNom}}</th>
+       <!--_______________________________________________ -->
+
+      <!--    colonne pour afficher les lignes associés avec la gare en question     -->
+      <td>
+        {% for ligne in gare["lignes"] %}
+        <img src="{{ asset('images/'~ligne.ligne~'.PNG') }}" height="30" width="30" /> 
+        {% endfor %}
+      </td>
+      <!--_______________________________________________ -->
+
+
+      <!--    colonne pour afficher les lignes qui prennent cette gare comme terminus    -->
       {% set verif = false %}
       <td>
       {% for ligne in gare["lignes"] %}
@@ -57,7 +68,7 @@
       -
       {% endif %}
       </td>
-   
+     <!--_______________________________________________ -->
       
     </tr>
    {% endfor %}
@@ -66,4 +77,19 @@
   </tbody>
 </table> 
 </div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+<script>
+
+$(document).ready(function() {
+  $('body').css('background-color', '#e3e3e3');
+	$('#example').DataTable( {
+		
+	} );
+} );
+
+</script>
 {% endblock %}

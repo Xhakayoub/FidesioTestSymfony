@@ -12,11 +12,20 @@
    {% for gare in infos %}
 
    <tr class="table-lignt">
+
+      <!--    colonne pour afficher le nom de la gare     -->
       <th scope="row">{{ gare["gare"].gareId}}</th>
+      <!--_______________________________________________ -->
+      
+
+      <!--    colonne pour afficher la ligne en question     -->
       <td>  
         <img src="{{ asset('images/'~gare["gare"].ligne~'.PNG') }}" height="30" width="30" />
       </td>
+      <!--_______________________________________________ -->
 
+
+      <!--    colonne pour afficher les lignes de correspondance    -->
       <td>
       {% for ligne in gare["lignes"] %}
       {% if ligne.ligne != "" %}
@@ -24,8 +33,10 @@
       {% endif %}
       {% endfor %}
       </td>
+      <!--_______________________________________________ -->
 
-     
+
+      <!--    colonne pour afficher les lignes qui prennent cette gare comme terminus    -->
       <td>
       {% set check = false %}
       {% for ligne in gare["lignes"] %}

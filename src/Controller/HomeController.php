@@ -14,9 +14,13 @@ class HomeController extends AbstractController
 {
 
     /**
-     * @Route("/", name="home")
+     * Page Home:
+     * fonction qui envoie les donnees neccesaire pour 
+     *     -l'affichage de toute les stations
+     *     -l'affichage des terminus
+     * @Route("/dynamic", name="dynamic")
      */
-    public function index()
+    public function DynamicIndex()
     {
         $allStations = $this->getDoctrine()->getRepository(Gare::class)
         ->findAll();
@@ -42,12 +46,6 @@ class HomeController extends AbstractController
           //  var_dump($obj);
             array_push($Api, $obj);
 
-        //     $allInfos = array([
-        //         "gare" => $station,
-        //         "lignes" => $lignes
-        //    ] );
-        //    array_push($Api,  $allInfos);
-
         }
 
         return $this->render('home/index.html.twig', [
@@ -59,9 +57,15 @@ class HomeController extends AbstractController
 
 
     /**
-     * @Route("/dynamic", name="dynamic")
+     * Page Dynamic:
+     * fonction qui envoie les donnees neccesaire pour 
+     *     -l'affichage de toute les stations 
+     *     -l'affichage de correspondance 
+     *     -l'affichage des terminus
+     *     -filtrage par ligne
+     * @Route("/", name="home")
      */
-    public function DynamicIndex()
+    public function index()
     {
         $allStations = $this->getDoctrine()->getRepository(Gare::class)
         ->findAll();
@@ -77,7 +81,7 @@ class HomeController extends AbstractController
 
       foreach($relation as $rel)
        {
-        // $stationToChek = $rel->getGareId();
+
          $lignes = array();
 
            foreach($relation as $relToCollect)
@@ -95,15 +99,7 @@ class HomeController extends AbstractController
             }
 
             $obj = array('gare'=> $rel, 'lignes'=> $lignes);
-          //  var_dump($obj);
             array_push($Api, $obj);
-
-        //     $allInfos = array([
-        //         "gare" => $station,
-        //         "lignes" => $lignes
-        //    ] );
-        //    array_push($Api,  $allInfos);
-
         }
 
         return $this->render('home/dynamicHome.html.twig', [
@@ -114,14 +110,14 @@ class HomeController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
-   /**
+   /** 
+     * Page Dynamic:
+     * fonction qui renvoie une page html.twig pour rafraichir la table avec 
+     * les informations d'une ligne choisis par le selectBox
+     *     -l'affichage de toute les stations 
+     *     -l'affichage de correspondance 
+     *     -l'affichage des terminus
+     *     -filtrage par ligne
      * @Route("/dynamic/tofilter", name="filterList")
      */
     public function filter(request $request)
@@ -141,14 +137,13 @@ class HomeController extends AbstractController
         if($lineRequested == "All"){
           $relation = $this->getDoctrine()->getRepository(Relation::class)
         ->findAll();
-        }else{
+        }
+        else{
         $relation = $this->getDoctrine()->getRepository(Relation::class)
          ->findByLigne($lineRequested);
       }
        foreach($relation as $rel)
         {
-         
-         // $stationToChek = $rel->getGareId();
           $lignes = array();
         
             foreach($allRelations as $relToCollect)
@@ -172,15 +167,7 @@ class HomeController extends AbstractController
              }
             
              $obj = array('gare'=> $rel, 'lignes'=> $lignes);
-           //  var_dump($obj);
              array_push($Api, $obj);
-
-         //     $allInfos = array([
-         //         "gare" => $station,
-         //         "lignes" => $lignes
-         //    ] );
-         //    array_push($Api,  $allInfos);
-
          }
 
          return $this->render('home/filteredList.html.twig', [
